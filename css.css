@@ -1,4 +1,35 @@
-
+#container{
+    width:400px;
+    margin:0 auto;
+    margin-top:10%;
+}
+#container h1{
+    width: 38%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+input[type=submit] {
+    background-color: #0657b4;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+input[type=submit]:hover {
+    background-color: rgb(11, 2, 133);
+    color: #ffffff;
+    border: 1px solid #023d80;
+}
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 button:hover
  {
     color: white;
@@ -10,11 +41,7 @@ button:active
     transform: translateY(4px);
 }
 
-body
-{
-    background-color: rgb(206, 206, 206);
-    margin: 0px;
-}
+
 
 .submit
 {
@@ -52,51 +79,7 @@ header
     
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10px;
-    
-  }
 
-  .nav
-{
-    text-align: center;
-    background: rgb(128, 128, 128) ;
-    color: #fff ;
-    border: 1px solid rgb(0, 0, 0) ;
-    margin-bottom: 1px ;
-    margin-top: -1px ;
-	padding: 0;
-    text-align: center;
-
-}
-
-
-
-li {
-    display: inline;
-	list-style: none;
-    padding: 20px;
-}
-
-li a {
-	display:inline-block;
-    margin: 0 30px;
-    border-left : 2px solid rgb(54, 54, 54);
-    border-right : 2px solid rgb(54, 54, 54);
-    padding: 5px 0 ;
-    color: white;
-    text-align: center ;
-    text-decoration: none ;
-}
-
-li a:hover
-{
-    background-color: rgb(100, 100, 100) ;    
-    color: #ffffff ;    
-    border-color: #000000 ;
-}
 h1
 {
     padding-bottom: 1em;
@@ -110,49 +93,14 @@ footer.copy
     margin: 200px;    
 }
 
-.form input[type="text"],.form input[type="mail"],.form input[type="number"],.form input[type="date"]{
-    border : 0;
-    background: local;
-    background-color: white;
-    display:block;
-    margin: 15px auto;
-    text-align: center;
-    border: 2px solid #000000 ;
-    padding: 10px 6px;
-    width: 150px;
-    outline: none;
-    color: black;
-    border-radius: 24px;
-    transition: 0.25s;
-}
 
 .form
 {
-    background-color: #494949;
+
     width: 95%;
     margin-left: 2%;
-    border: 5px solid rgb(255, 255, 255);
     outline-style: solid;
-    outline-color: rgb(0, 0, 0);
-    outline-width: thin;
-
-}
-
-select
-{
-    border : 0;
-    background: local;
-    background-color: white;
-    display:block;
-    margin: 15px auto;
-    text-align: center;
-    border: 2px solid #000000 ;
-    padding: 10px 6px;
-    width: 150px;
-    outline: none;
-    color: black;
-    border-radius: 24px;
-    transition: 0.25s;
+    outline-color: rgb(114, 113, 113), 255;
 }
 
 
@@ -179,6 +127,7 @@ a.titredon:hover
 
 .textform
 {
-    color: rgb(255, 255, 255);
-    font-family: 'Lilita One', cursive;
+    color: rgb(0, 0, 0);
+    font-family: 'Roboto', sans-serif;
+
 }

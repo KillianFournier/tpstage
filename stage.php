@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="css.css"/>
 <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <?php 
     try{
         $bdd = new PDO('mysql:host=localhost;dbname=tpstage;charset=utf8','killian','killian');
@@ -15,25 +17,53 @@
 ?>
 
     <header><h1>Enregistrement des Stages</h1></header>
-    <div class="nav">
-            <ul>
-                <li><a href="accueil.html">Accueil</a></li>
-                <li><a href="stage.php">Enregistrement des stages</a></li>
-                <li><a href="etudiant.php">Enregistrement des etudiants</a></li>
-                <li><a href="tuteur.php">Enregistrement des tuteurs</a></li>
-                <li><a href="entreprise.php">Enregistrement des entreprises</a></li>
-                <li><a href="total.php">Voir les donn&eacute;es enregistrer</a></li>
-                <li><a href="contact.html">Nous contacter</a></li>
-                <!-- Ect .. -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div id="content">
+            
+            <a href='accueil.php?deconnexion=true'><span>Déconnexion</span></a>
+            
+            <!-- tester si l'utilisateur est connecté -->
+            <?php
+                session_start();
+                if(isset($_GET['deconnexion']))
+                { 
+                   if($_GET['deconnexion']==true)
+                   {  
+                      session_unset();
+                      header("location:login.php");
+                   }
+                }
+                else if($_SESSION['username'] !== ""){
+                    $user = $_SESSION['username'];
+                    // afficher un message
+                    echo "<br>Bonjour $user, vous êtes connectés";
+                }
+            ?>
+                   <?php if($_SESSION == NULL){
+            header('Location: login.php');
+            exit; 
+        }
+        ?>
+            
+        </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="accueil.php">Accueil</a></li>
+                <li class="nav-item active"><a class="nav-link" href="stage.php">Enregistrement des stages</a></li>
+                <li class="nav-item"><a class="nav-link" href="etudiant.php">Enregistrement des etudiants</a></li>
+                <li class="nav-item"><a class="nav-link" href="tuteur.php">Enregistrement des tuteurs</a></li>
+                <li class="nav-item"><a class="nav-link" href="entreprise.php">Enregistrement des entreprises</a></li>
+                <li class="nav-item"><a class="nav-link" href="total.php">Voir les donn&eacute;es enregistrer</a></li>
             </ul>
         </div>
     <br>
+</nav>
     <body>
-    </body>
+
     <form class="form" action="" method="POST">
     <p class="deroulant">     
     <div class="textform"> Veuillez mettre le nom de l'etudiant :</div>
-        <select name="etudiant">
+        <select name="etudiant" class="form-control">
     <?php 
     $reqetud = $bdd->prepare("SELECT * FROM Etudiants");
     $reqetud->execute();
@@ -45,13 +75,13 @@
     </select>
         <br>
         <div class="textform"> Veuillez mettre la date de debut du stage : </div>
-        <input type="date" name ="Datedeb" requiered >
+        <input type="date" class="form-control" name ="Datedeb" requiered >
         <br>
         <div class="textform"> Veuillez mettre la date de fin du stage : </div>
-        <input type="date" name ="Datefin" requiered >
+        <input type="date" class="form-control" name ="Datefin" requiered >
         <br>
         <div class="textform"> Veuillez mettre le nom du tuteur : </div>
-    <select name="tuteur">
+    <select name="tuteur" class="form-control">
     <?php 
     $reqtuteur = $bdd->prepare("SELECT * FROM Tuteur");
     $reqtuteur->execute();
@@ -62,7 +92,7 @@
     </select>
         <br>
         <div class="textform"> Veuillez mettre le nom de l'entreprise : </div>
-        <select name="entreprise">
+        <select name="entreprise" class="form-control">
     <?php 
     $reqentreprise = $bdd->prepare("SELECT * FROM Entreprise");
     $reqentreprise->execute();
@@ -70,14 +100,13 @@
         echo'<option value="'.$row['identreprise'].'">'.$row['denomination'].'</option>';
     }
     ?>
-    </select>
+    </select >
         <br>
         <div class="textform"> Description :</div>
-        <input type="text" name ="Description" placeholder="Description" requiered >
+        <input type="text" class="form-control" name ="Description" placeholder="Description" requiered >
         <br>
-        <br>
-       <button class=submit type="submit" name = "submit">Valider</button>
-        <p>
+       <button  class="btn btn-primary" type="submit" name = "submit">Valider</button>
+
     </form>
     <?php
 
@@ -95,14 +124,50 @@
         } else {
             echo"<p style='color: red'>Erreur d'enregistrement</p>";
         }
-
-
     }
-
-
-
     ?>
+ <br>
+ <h2 align = "center">
+           <p> Stages Enregistr&eacute;</p>
+    </h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id de l'etudiant</th>
+                <th>Date de debut</th>
+                <th>Date de fin</th>
+                <th>Id du tuteur</th>
+                <th>Id de l'entreprise</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+            try
+            {
+            $bdd = new PDO('mysql: host=localhost;dbname=tpstage;charset=utf8','killian','killian');
+            }
+            catch(PDOException $e){
+            die('Erreur : '.$e->getMessage());
+            }
+            $result = $bdd->prepare("SELECT * FROM Stage ");
 
+            $result->execute();
+
+            for($i=0; $row = $result->fetch(); $i++){
+
+        ?>
+            <tr>
+                <td><label><?php echo $row['Idetud']; ?></label></td>
+                <td><label><?php echo $row['Datedeb']; ?></label></td>
+                <td><label><?php echo $row['Datefin']; ?></label></td>
+                <td><label><?php echo $row['Idtuteur']; ?></label></td>
+                <td><label><?php echo $row['Identreprise']; ?></label></td>
+                <td><label><?php echo $row['Description']; ?></label></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
     <footer class="copy">
   <hr>
       Copyright &copy; Akinil - 2020 - All Right Reserved
@@ -110,5 +175,5 @@
 
 
 </footer>
-
+</body>
 </html>
