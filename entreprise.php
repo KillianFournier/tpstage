@@ -9,7 +9,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="content">
             
-            <a href='accueil.php?deconnexion=true'><span>Déconnexion</span></a>
+            <a href='accueil.php?deconnexion=true' class="btn btn-danger"><span>Déconnexion</span></a>
             
             <!-- tester si l'utilisateur est connecté -->
             <?php
@@ -25,7 +25,7 @@
                 else if($_SESSION['username'] !== ""){
                     $user = $_SESSION['username'];
                     // afficher un message
-                    echo "<br>Bonjour $user, vous êtes connectés";
+                    echo "<br>Bonjour<Strong> $user</Strong>, vous êtes connectés";
                 }
             ?>
        <?php if($_SESSION == NULL){
@@ -83,6 +83,40 @@
     }
 
     ?>
+
+<table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id des Entreprises</th>
+                <th>Nom des Entreprises</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        <h2 align = "center">
+            <p>Entreprises</p>
+    </h2>
+        <?php
+            try
+            {
+            $bdd = new PDO('mysql: host=localhost;dbname=tpstage;charset=utf8','killian','killian');
+            }
+            catch(PDOException $e){
+            die('Erreur : '.$e->getMessage());
+            }
+            $result = $bdd->prepare("SELECT * FROM Entreprise ");
+
+            $result->execute();
+
+            for($i=0; $row = $result->fetch(); $i++){
+
+        ?>
+            <tr>
+                <td><label><?php echo $row['identreprise']; ?></label></td>
+                <td><label><?php echo $row['denomination']; ?></label></td>
+            <?php } ?>
+        </tbody>
+            </table>
 
 <footer class="copy">
   <hr>

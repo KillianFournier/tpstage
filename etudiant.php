@@ -9,7 +9,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="content">
             
-            <a href='accueil.php?deconnexion=true'><span>Déconnexion</span></a>
+            <a href='accueil.php?deconnexion=true' class="btn btn-danger"><span>Déconnexion</span></a>
             
             <!-- tester si l'utilisateur est connecté -->
             <?php
@@ -25,7 +25,7 @@
                 else if($_SESSION['username'] !== ""){
                     $user = $_SESSION['username'];
                     // afficher un message
-                    echo "<br>Bonjour $user, vous êtes connectés";
+                    echo "<br>Bonjour<Strong> $user</Strong>, vous êtes connectés";
                 }
             ?>
        <?php if($_SESSION == NULL){

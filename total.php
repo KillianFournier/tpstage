@@ -9,7 +9,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="content">
             
-            <a href='accueil.php?deconnexion=true'><span>Déconnexion</span></a>
+            <a href='accueil.php?deconnexion=true' class="btn btn-danger"><span>Déconnexion</span></a>
             
             <!-- tester si l'utilisateur est connecté -->
             <?php
@@ -25,7 +25,7 @@
                 else if($_SESSION['username'] !== ""){
                     $user = $_SESSION['username'];
                     // afficher un message
-                    echo "<br>Bonjour $user, vous êtes connectés";
+                    echo "<br>Bonjour <Strong>$user</Strong>, vous êtes connectés";
                 }
             ?>
        <?php if($_SESSION == NULL){
@@ -58,6 +58,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>Id de l'etudiant</th>
+                <th>Nom de l'etudiant</th>
                 <th>Date de debut</th>
                 <th>Date de fin</th>
                 <th>Id du tuteur</th>
@@ -74,7 +75,7 @@
             catch(PDOException $e){
             die('Erreur : '.$e->getMessage());
             }
-            $result = $bdd->prepare("SELECT * FROM Stage ");
+            $result = $bdd->prepare("SELECT * FROM Stage INNER JOIN Etudiants Where Etudiants.Idetud = Stage.Idetud");
 
             $result->execute();
 
@@ -83,6 +84,7 @@
         ?>
             <tr>
                 <td><label><?php echo $row['Idetud']; ?></label></td>
+                <td><label><?php echo $row['NomEtud']; ?></label></td>
                 <td><label><?php echo $row['Datedeb']; ?></label></td>
                 <td><label><?php echo $row['Datefin']; ?></label></td>
                 <td><label><?php echo $row['Idtuteur']; ?></label></td>
@@ -126,15 +128,87 @@
                 <td><label><?php echo $row['PrenomEtud']; ?></label></td>
                 <td><label><?php echo $row['MailEtud']; ?></label></td>
             <?php } ?>
+ 
+
+      
+        <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id des tuteurs</th>
+                <th>Nom des tuteurs</th>
+                <th>Prenom des tuteurs</th>
+                <th>Mail de l'etudiant</th>
+            </tr>
+        </thead>
+        <tbody>
+        <h2 align = "center">
+      
+        <h2 align = "center">
+            <p> <a class="titredon"  href="tuteur.php">Tuteurs </a></p>
+    </h2>
+        <?php
+            try
+            {
+            $bdd = new PDO('mysql: host=localhost;dbname=tpstage;charset=utf8','killian','killian');
+            }
+            catch(PDOException $e){
+            die('Erreur : '.$e->getMessage());
+            }
+            $result = $bdd->prepare("SELECT * FROM Tuteur ");
+
+            $result->execute();
+
+            for($i=0; $row = $result->fetch(); $i++){
+
+        ?>
+            <tr>
+                <td><label><?php echo $row['id']; ?></label></td>
+                <td><label><?php echo $row['nomtut']; ?></label></td>
+                <td><label><?php echo $row['prenomtut']; ?></label></td>
+                <td><label><?php echo $row['mailtut']; ?></label></td>
+            <?php } ?>
         </tbody>
             </table>
-            
+ 
+
+            <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id des Entreprises</th>
+                <th>Nom des Entreprises</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        <h2 align = "center">
+            <p> <a class="titredon"  href="entreprise.php">Entreprises </a></p>
+    </h2>
+        <?php
+            try
+            {
+            $bdd = new PDO('mysql: host=localhost;dbname=tpstage;charset=utf8','killian','killian');
+            }
+            catch(PDOException $e){
+            die('Erreur : '.$e->getMessage());
+            }
+            $result = $bdd->prepare("SELECT * FROM Entreprise ");
+
+            $result->execute();
+
+            for($i=0; $row = $result->fetch(); $i++){
+
+        ?>
+            <tr>
+                <td><label><?php echo $row['identreprise']; ?></label></td>
+                <td><label><?php echo $row['denomination']; ?></label></td>
+            <?php } ?>
+        </tbody>
+            </table>
+            </body>
             <footer class="copy">
     <hr>
         Copyright &copy; Akinil - 2020 - All Right Reserved
     <hr/>
 
-
     </footer>
-    </body>
     </html>

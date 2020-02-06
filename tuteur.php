@@ -10,7 +10,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="content">
             
-            <a href='accueil.php?deconnexion=true'><span>Déconnexion</span></a>
+            <a href='accueil.php?deconnexion=true' class="btn btn-danger"><span>Déconnexion</span></a>
             
             <!-- tester si l'utilisateur est connecté -->
             <?php
@@ -26,7 +26,7 @@
                 else if($_SESSION['username'] !== ""){
                     $user = $_SESSION['username'];
                     // afficher un message
-                    echo "<br>Bonjour $user, vous êtes connectés";
+                    echo "<br>Bonjour<Strong> $user</Strong>, vous êtes connectés";
                 }
             ?>
        <?php if($_SESSION == NULL){
@@ -76,19 +76,55 @@
         die('Erreur : '.$e->getMessage());
     }
     if(isset($_POST['submit'])){
-        $id=($_POST['Idtuteur']);
-        $nom=($_POST['Nomtuteur']);
-        $prenom=($_POST['Prenomtuteur']);
+        $idtut=($_POST['Idtuteur']);
+        $nomtut=($_POST['Nomtuteur']);
+        $prenomtut=($_POST['Prenomtuteur']);
         $mailtut=($_POST['Mailtuteur']);
         $req = $bdd->prepare('INSERT INTO Tuteur VALUES (?,?,?,?)');
-        $success = $req->execute(array($id,$nom,$prenom,$mailtut));
-        if($success) {?>
-           <p><div class="alert alert-success" role="alert">Tuteur enregistré </div></p>
-        <?php } else {?>
-           <p><div class="alert alert-danger" role="alert">Erreur d'enregistrement</div></p>
-       <?php }
+        $success = $req->execute(array($idtut,$nomtut,$prenomtut,$mailtut));
+        if($success) {
+            echo"<p style='color: green'>Etudiant enregistré</p>";
+        } else {
+            echo"<p style='color: red'>Erreur d'enregistrement</p>";
+        }
     }
     ?>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id des tuteurs</th>
+                <th>Nom des tuteurs</th>
+                <th>Prenom des tuteurs</th>
+                <th>Mail de l'etudiant</th>
+            </tr>
+        </thead>
+        <tbody>
+    <h2 align = "center">
+            <p>Tuteurs</p>
+    </h2>
+        <?php
+            try
+            {
+            $bdd = new PDO('mysql: host=localhost;dbname=tpstage;charset=utf8','killian','killian');
+            }
+            catch(PDOException $e){
+            die('Erreur : '.$e->getMessage());
+            }
+            $result = $bdd->prepare("SELECT * FROM Tuteur ");
+            $result->execute();
+
+            for($i=0; $row = $result->fetch(); $i++){
+
+        ?>
+            <tr>
+                <td><label><?php echo $row['id']; ?></label></td>
+                <td><label><?php echo $row['nomtut']; ?></label></td>
+                <td><label><?php echo $row['prenomtut']; ?></label></td>
+                <td><label><?php echo $row['mailtut']; ?></label></td>
+            <?php } ?>
+        </tbody>
+            </table>
+            </body>
 
 <footer class="copy">
   <hr>
